@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>SaveImage</title>
+    <link rel="stylesheet" href="ui.css" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body class="popup">
+    <header class="bar">
+      <img src="../icons/icon32.png" alt="" width="20" height="20" class="mark" />
+      <h1>SaveImage</h1>
+      <span class="ver" id="version"></span>
+      <button class="icon-btn" id="openOptions" title="All settings" aria-label="All settings">
+        <svg
+          viewBox="0 0 16 16"
+          width="15"
+          height="15"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M2 4.75h6.4M13.1 4.75H14M2 11.25h1.4M8.1 11.25H14" />
+          <circle cx="10.4" cy="4.75" r="1.9" />
+          <circle cx="5.6" cy="11.25" r="1.9" />
+        </svg>
+      </button>
+    </header>
+
+    <section class="group">
+      <span class="group-title">Compression</span>
+      <div class="chips" role="tablist" id="formatChips"></div>
+
+      <div class="panel" id="qualityPanel">
+        <div class="panel-head">
+          <span class="panel-label" id="qualityLabel">Quality</span>
+          <span class="saved" id="savedFlag">Saved</span>
+        </div>
+
+        <div id="qualityControls">
+          <div class="range-row">
+            <input type="range" id="quality" min="1" max="100" step="1" aria-label="Quality" />
+            <input type="number" id="qualityNum" class="num" min="1" max="100" step="1" />
+          </div>
+          <div class="scale">
+            <span>smaller file</span>
+            <span>better quality</span>
+          </div>
+        </div>
+
+        <p class="hint" id="losslessNote" hidden>
+          PNG is lossless — there is no quality dial. Every pixel is preserved exactly.
+        </p>
+      </div>
+    </section>
+
+    <section class="group">
+      <span class="group-title">Save to</span>
+      <div class="segmented" id="saveMode">
+        <button type="button" data-mode="downloads" aria-pressed="false">Downloads</button>
+        <button type="button" data-mode="ask" aria-pressed="false">Ask me</button>
+        <button type="button" data-mode="subfolder" aria-pressed="false">Subfolder</button>
+      </div>
+
+      <div class="panel" id="subfolderPanel" hidden>
+        <div class="field">
+          <label class="hint" for="subfolder">Folder</label>
+          <input
+            type="text"
+            id="subfolder"
+            placeholder="SaveImage"
+            maxlength="64"
+            style="flex: 1"
+            aria-label="Subfolder name"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="group">
+      <div class="field">
+        <label for="maxDimension">Limit longest side</label>
+        <input type="number" id="maxDimension" class="num" min="0" max="20000" step="100" />
+        <span class="hint">px</span>
+      </div>
+      <p class="hint" id="maxDimensionNote">0 keeps the original size.</p>
+    </section>
+
+    <footer class="foot">
+      <p class="hint">Right-click any image → <strong>Save Image As...</strong></p>
+      <a href="#" id="openOptions2">All settings →</a>
+    </footer>
+
+    <script src="popup.js" type="module"></script>
+  </body>
+</html>
