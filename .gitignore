@@ -1,0 +1,9 @@
+# Build output
+dist/
+
+# macOS
+.DS_Store
+
+# Node (only used for `node --test`; no runtime dependencies)
+node_modules/
+package-lock.json
