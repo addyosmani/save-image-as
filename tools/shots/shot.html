@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>SaveImage — store asset renderer</title>
+    <link rel="stylesheet" href="/ui/ui.css" />
+    <link rel="stylesheet" href="/ui/popup.css" />
+    <link rel="stylesheet" href="/ui/options.css" />
+    <link rel="stylesheet" href="shot.css" />
+  </head>
+  <body>
+    <div id="stage" class="stage"></div>
+
+    <script type="module">
+      // Store assets are composed from the REAL popup/options markup and the
+      // REAL scripts, driven by a chrome.* stub. If the UI changes, the
+      // screenshots change with it — they cannot drift into a lie.
+      const params = new URLSearchParams(location.search);
+      const scene = params.get('scene') || 'hero';
+      const W = +(params.get('w') || 1280);
+      const H = +(params.get('h') || 800);
+
+      const store = {
+        sync: {},
+        local: { encoderSupport: { jpeg: true, png: true, webp: true, avif: false } },
+      };
+      const area = (name) => ({
+        get: async (keys) => {
+          if (keys == null) return { ...store[name] };
+          const list = Array.isArray(keys) ? keys : typeof keys === 'string' ? [keys] : Object.keys(keys);
+          const out = {};
+          for (const k of list) if (k in store[name]) out[k] = store[name][k];
+          return out;
+        },
+        set: async (o) => Object.assign(store[name], o),
+        clear: async () => { store[name] = {}; },
+      });
+      window.chrome = {
+        runtime: {
+          getManifest: () => ({ version: '1.0.0' }),
+          openOptionsPage() {},
+          sendMessage: async () => ({ ok: true, support: store.local.encoderSupport }),
+          getURL: (p) => '/' + p,
+        },
+        storage: { sync: area('sync'), local: area('local'), onChanged: { addListener() {} } },
+      };
+
+      const stage = document.getElementById('stage');
+      stage.style.width = W + 'px';
+      stage.style.height = H + 'px';
+      stage.dataset.scene = scene;
+
+      /** Mount a real extension page inside a chrome-like frame. */
+      async function mount(page, host) {
+        const html = await (await fetch(`/ui/${page}.html`)).text();
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        for (const img of doc.querySelectorAll('img[src^="../"]')) {
+          img.setAttribute('src', img.getAttribute('src').replace('../', '/'));
+        }
+        for (const s of doc.querySelectorAll('style')) document.head.append(s.cloneNode(true));
+        host.className += ' ' + doc.body.className;
+        host.innerHTML = doc.body.innerHTML;
+        await import(`/ui/${page}.js`);
+      }
+
+      const caption = (title, sub) =>
+        `<div class="cap"><h2>${title}</h2><p>${sub}</p></div>`;
+
+      // A stand-in photo drawn purely with CSS — no third-party image assets.
+      const photo = `<div class="photo"><span class="ph-sun"></span><span class="ph-hill"></span><span class="ph-hill2"></span></div>`;
+
+      const menu = `
+        <div class="ctx">
+          <div class="ctx-item">Open image in new tab</div>
+          <div class="ctx-item">Copy image address</div>
+          <div class="ctx-sep"></div>
+          <div class="ctx-item ctx-active">
+            <img src="/icons/icon16.png" width="14" height="14" alt="">
+            Save Image As...
+            <span class="ctx-arrow">›</span>
+            <div class="ctx-sub">
+              <div class="ctx-item ctx-hot">JPEG</div>
+              <div class="ctx-item">PNG</div>
+              <div class="ctx-item">WebP</div>
+              <div class="ctx-sep"></div>
+              <div class="ctx-item">Original file (no conversion)</div>
+            </div>
+          </div>
+          <div class="ctx-sep"></div>
+          <div class="ctx-item">Inspect</div>
+        </div>`;
+
+      if (scene === 'hero') {
+        stage.innerHTML =
+          caption('Save any image as JPEG, PNG or WebP', 'Right-click. Pick a format. Done.') +
+          `<div class="hero">${photo}${menu}</div>`;
+      } else if (scene === 'popup') {
+        stage.innerHTML =
+          caption('Set it once, in one small panel', 'Quality per format, where files land, and an optional size cap.') +
+          `<div class="center"><div class="frame frame-popup"><div id="mnt"></div></div></div>`;
+        await mount('popup', document.getElementById('mnt'));
+        document.querySelector('#saveMode button[data-mode="subfolder"]')?.click();
+        document.getElementById('subfolder').value = 'Wallpapers';
+      } else if (scene === 'options') {
+        stage.innerHTML =
+          caption('Everything else, if you want it', 'Filename templates, size caps, passthrough, source upgrading.') +
+          `<div class="center"><div class="frame frame-wide"><div id="mnt" class="scaled"></div></div></div>`;
+        await mount('options', document.getElementById('mnt'));
+      } else if (scene === 'honest') {
+        stage.innerHTML =
+          caption('A .webp file is always really WebP', 'Chrome silently returns PNG for codecs it cannot encode. SaveImage checks.') +
+          `<div class="center"><div class="explain">
+             <div class="ex-row"><code>convertToBlob("image/webp")</code><b class="good">→ image/webp ✓ saved</b></div>
+             <div class="ex-row"><code>convertToBlob("image/avif")</code><b class="bad">→ image/png ✗ refused</b></div>
+             <p class="ex-note">Every encode is checked against its real MIME type before it reaches
+             disk, so a file whose contents disagree with its extension can never be written.
+             Formats your browser cannot encode never appear in the menu at all.</p>
+           </div></div>`;
+      } else if (scene === 'source') {
+        stage.innerHTML =
+          caption('Converts from the best source it can find', 'Not the shrunken copy the page happened to display.') +
+          `<div class="center"><div class="explain">
+             <div class="ex-flow">
+               <div class="ex-box ex-dim"><span>what the page shows</span>
+                 <code>/upload/<em>w_400,q_auto,f_auto</em>/v1/pic.jpg</code><small>400px · already re-compressed</small></div>
+               <div class="ex-arrow">→</div>
+               <div class="ex-box ex-lit"><span>what SaveImage fetches</span>
+                 <code>/upload/v1/pic</code><small>the original upload, full resolution</small></div>
+             </div>
+             <p class="ex-note">On Cloudinary-hosted images the transformation segments are dropped
+             to reach the master asset. Elsewhere, the page’s own <code>srcset</code> is followed to
+             the largest candidate. If either fails, the visible image is used instead.</p>
+           </div></div>`;
+      } else if (scene === 'promo' || scene === 'marquee') {
+        stage.innerHTML = `<div class="promo">
+            <img src="/icons/icon128.png" alt="" class="promo-icon">
+            <div><h2>SaveImage</h2><p>Right-click any image →<br>save it as JPEG, PNG or WebP</p></div>
+          </div>`;
+      }
+
+      document.fonts.ready.then(() => requestAnimationFrame(() => {
+        setTimeout(() => { document.documentElement.dataset.ready = '1'; }, 120);
+      }));
+    </script>
+  </body>
+</html>
