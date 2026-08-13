@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>SaveImage UI preview</title>
+    <link rel="stylesheet" href="/ui/ui.css" />
+    <link rel="stylesheet" href="/ui/popup.css" />
+    <link rel="stylesheet" href="/ui/options.css" />
+    <style>
+      body {
+        padding: 0;
+      }
+      #frame {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        width: 328px;
+        margin: 24px;
+      }
+      body.as-options #frame {
+        width: auto;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="frame"></div>
+    <script type="module">
+      // Minimal chrome.* stub so the real popup/options scripts run in a plain
+      // page. Storage is in-memory; everything else is a no-op.
+      const store = { sync: {}, local: { encoderSupport: { jpeg: true, png: true, webp: true, avif: false } } };
+      const area = (name) => ({
+        get: async (keys) => {
+          if (keys === null || keys === undefined) return { ...store[name] };
+          const list = Array.isArray(keys) ? keys : typeof keys === 'string' ? [keys] : Object.keys(keys);
+          const out = {};
+          for (const k of list) if (k in store[name]) out[k] = store[name][k];
+          return out;
+        },
+        set: async (obj) => Object.assign(store[name], obj),
+        clear: async () => { store[name] = {}; },
+      });
+      window.chrome = {
+        runtime: {
+          getManifest: () => ({ version: '1.0.0' }),
+          openOptionsPage: () => console.log('openOptionsPage()'),
+          sendMessage: async () => ({ ok: true, support: store.local.encoderSupport }),
+          getURL: (p) => '/' + p,
+        },
+        storage: { sync: area('sync'), local: area('local'), onChanged: { addListener() {} } },
+      };
+
+      const which = new URLSearchParams(location.search).get('page') || 'popup';
+      if (which === 'options' || which === 'welcome') document.body.classList.add('as-options');
+
+      const html = await (await fetch(`/ui/${which}.html`)).text();
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      // Rewrite the relative asset paths for this location.
+      for (const img of doc.querySelectorAll('img[src^="../"]')) {
+        img.setAttribute('src', img.getAttribute('src').replace('../', '/'));
+      }
+      document.getElementById('frame').innerHTML = doc.body.innerHTML;
+      for (const s of doc.querySelectorAll('style')) document.head.append(s.cloneNode(true));
+      document.body.classList.add(...doc.body.classList);
+
+      await import(`/ui/${which}.js`);
+    </script>
+  </body>
+</html>
