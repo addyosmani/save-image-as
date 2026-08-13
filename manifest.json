@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "SaveImage — save any image as JPEG, PNG or WebP",
+  "short_name": "SaveImage",
+  "version": "1.0.0",
+  "description": "Right-click any image to save it as JPEG, PNG or WebP. Re-encoding happens on your own machine, at a quality you choose.",
+  "minimum_chrome_version": "116",
+  "permissions": [
+    "contextMenus",
+    "downloads",
+    "storage",
+    "offscreen",
+    "scripting",
+    "notifications"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "SaveImage",
+    "default_popup": "ui/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_ui": {
+    "page": "ui/options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
