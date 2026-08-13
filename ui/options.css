@@ -1,0 +1,130 @@
+/* Options page layout. */
+
+body.options {
+  background: var(--bg-sunken);
+  padding: 32px 20px 48px;
+}
+
+.shell {
+  max-width: 660px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.page-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 0 4px 4px;
+}
+
+.page-head img {
+  border-radius: 9px;
+  flex: 0 0 auto;
+}
+
+.page-head h1 {
+  font-size: 19px;
+  letter-spacing: -0.02em;
+  margin-bottom: 3px;
+}
+
+.page-head .hint {
+  max-width: 46em;
+}
+
+.page-head .saved {
+  margin-left: auto;
+  align-self: center;
+  white-space: nowrap;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px 18px;
+  box-shadow: var(--shadow);
+}
+
+.card h2 {
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.card .hint.sub {
+  margin-bottom: 14px;
+  max-width: 60em;
+}
+
+.card h2 + .stack,
+.card h2 + .encoders {
+  margin-top: 12px;
+}
+
+.quality-row {
+  display: grid;
+  grid-template-columns: 130px 1fr auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.quality-row .name {
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.quality-row .name small {
+  display: block;
+  font-weight: 400;
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+.encoders {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.enc {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-sunken);
+}
+
+.enc .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-faint);
+}
+
+.enc.yes .dot {
+  background: var(--ok);
+}
+.enc.no {
+  color: var(--text-faint);
+}
+
+.row-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.page-foot {
+  text-align: center;
+  padding-top: 6px;
+}
+
+code.code {
+  font-family: var(--mono);
+}

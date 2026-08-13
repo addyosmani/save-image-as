@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>SaveImage — Settings</title>
+    <link rel="stylesheet" href="ui.css" />
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body class="options">
+    <div class="shell">
+      <header class="page-head">
+        <img src="../icons/icon128.png" alt="" width="40" height="40" />
+        <div>
+          <h1>SaveImage</h1>
+          <p class="hint">
+            Every setting below affects work done locally, by your own copy of Chrome. The
+            extension talks to exactly one thing: the server hosting the image you clicked.
+          </p>
+        </div>
+        <span class="saved" id="savedFlag">Saved</span>
+      </header>
+
+      <!-- ── Compression ── -->
+      <section class="card">
+        <h2>Compression</h2>
+        <p class="hint sub">
+          Applied when you convert <em>into</em> that format. Lower means a smaller file and more
+          visible artefacts.
+        </p>
+        <div class="stack" id="qualityRows"></div>
+      </section>
+
+      <!-- ── Conversion behaviour ── -->
+      <section class="card">
+        <h2>Conversion</h2>
+        <div class="stack">
+          <label class="switch">
+            <input type="checkbox" id="passthrough" />
+            <span class="switch-text">
+              <strong>Keep original bytes when the format already matches</strong>
+              <span
+                >Choosing “PNG” on a file that is already a PNG copies it verbatim instead of
+                re-encoding it. Avoids a second generation of loss and preserves metadata.</span
+              >
+            </span>
+          </label>
+
+          <label class="switch">
+            <input type="checkbox" id="upgradeSource" />
+            <span class="switch-text">
+              <strong>Fetch the highest-quality source available</strong>
+              <span
+                >Follows a page’s <code class="code">srcset</code> to the largest listed image, and
+                on Cloudinary-hosted images requests the untransformed original rather than the
+                resized copy on the page. Falls back to the visible image if that fails.</span
+              >
+            </span>
+          </label>
+
+          <div class="field">
+            <label for="maxDimension">Limit the longest side to</label>
+            <input type="number" id="maxDimension" class="num" min="0" max="20000" step="100" />
+            <span class="hint">px — 0 keeps the original size</span>
+          </div>
+
+          <div class="field">
+            <label for="jpegBackground">Background behind transparency (JPEG)</label>
+            <input type="color" id="jpegBackground" />
+            <span class="hint">JPEG cannot store transparency, so it has to become a colour.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Files ── -->
+      <section class="card">
+        <h2>File names</h2>
+        <div class="stack">
+          <div class="field">
+            <label for="filenameTemplate">Template</label>
+            <input type="text" id="filenameTemplate" style="flex: 2" spellcheck="false" />
+          </div>
+          <p class="hint">
+            Preview: <span class="code" id="filenamePreview">photo.jpg</span>
+          </p>
+          <p class="hint" id="tokenList"></p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Where files go</h2>
+        <div class="stack">
+          <div class="segmented" id="saveMode">
+            <button type="button" data-mode="downloads" aria-pressed="false">Downloads</button>
+            <button type="button" data-mode="ask" aria-pressed="false">Ask each time</button>
+            <button type="button" data-mode="subfolder" aria-pressed="false">Subfolder</button>
+          </div>
+          <div class="field" id="subfolderField" hidden>
+            <label for="subfolder">Folder name</label>
+            <input type="text" id="subfolder" style="flex: 2" maxlength="64" spellcheck="false" />
+          </div>
+          <p class="hint">
+            Chrome extensions can only write inside your Downloads folder — a subfolder is created
+            there. Existing files are never overwritten; a number is appended instead.
+          </p>
+        </div>
+      </section>
+
+      <!-- ── Feedback ── -->
+      <section class="card">
+        <h2>Notifications</h2>
+        <div class="stack">
+          <label class="switch">
+            <input type="checkbox" id="notifyOnError" />
+            <span class="switch-text">
+              <strong>Tell me when a save fails</strong>
+              <span>Otherwise a failure only shows as a red badge on the toolbar icon.</span>
+            </span>
+          </label>
+          <label class="switch">
+            <input type="checkbox" id="notifyOnSuccess" />
+            <span class="switch-text">
+              <strong>Tell me when a save succeeds</strong>
+              <span>Reports the dimensions, final size and how much was saved.</span>
+            </span>
+          </label>
+        </div>
+      </section>
+
+      <!-- ── Diagnostics ── -->
+      <section class="card">
+        <h2>Encoder support</h2>
+        <p class="hint sub">
+          Probed directly from your browser at install time. A format only appears in the
+          right-click menu once its encoder has been proven to work, so SaveImage can never write a
+          file whose contents disagree with its extension.
+        </p>
+        <div id="encoderList" class="encoders"></div>
+        <div class="row-actions">
+          <button class="btn" id="reprobe">Re-check</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Reset</h2>
+        <div class="row-actions">
+          <button class="btn btn-danger" id="reset">Restore defaults</button>
+        </div>
+      </section>
+
+      <footer class="page-foot hint">
+        SaveImage <span id="version"></span> · MIT licensed · <a href="https://github.com/addyosmani/save-image-as">source on GitHub</a>
+      </footer>
+    </div>
+
+    <script src="options.js" type="module"></script>
+  </body>
+</html>
