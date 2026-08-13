@@ -1,0 +1,2 @@
+SaveImageAs converts an image the user right-clicks into a chosen image format (JPEG, PNG or
+WebP) and saves it to the user's Downloads folder. That is its only function.

@@ -1,0 +1,2 @@
+Writes the converted image to the user's Downloads folder. There is no other way for the
+extension to deliver the file it produces.

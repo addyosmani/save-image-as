@@ -1,0 +1,66 @@
+Right-click an image, choose a format, and it saves. JPEG, PNG or WebP.
+
+The conversion runs on your computer. There is no account to create, nothing is uploaded, and no
+server is involved.
+
+
+WHY NOT JUST USE CHROME'S OWN SAVE IMAGE AS
+
+Chrome saves whatever the site sent, in whatever format it happens to be in. If you need a PNG
+and the page serves WebP, you end up on a converter site or opening an image editor. This skips
+that step.
+
+
+IT CONVERTS FROM THE RIGHT SOURCE
+
+Pages usually display a shrunk, re-compressed copy of a much better original. Converting that to
+PNG only gets you a lossless copy of a thumbnail, which is not what anyone wants.
+
+So it looks for something better first. It reads the page's srcset and takes the largest version
+listed there. On Cloudinary-hosted images it strips the resize and quality parameters out of the
+URL, which makes Cloudinary hand back the original upload instead of the derivative. If neither
+of those works it falls back to the image you can see, so you are never worse off than before.
+
+
+A .WEBP FILE WILL ACTUALLY BE WEBP
+
+Chrome has an awkward quirk here. Ask it to encode a format it does not support and it hands
+back a PNG without raising an error. Extensions that do not check for this write PNG bytes into
+a file called something.avif, and you only find out weeks later when a program refuses to open
+it.
+
+SaveImageAs tests every encoder once when it installs, then checks each conversion against the
+real file type before anything gets written. Formats your browser cannot encode never appear in
+the menu.
+
+
+SOMETIMES THE RIGHT ANSWER IS NOT TO CONVERT
+
+Saving a PNG as a PNG copies the file as it is instead of putting it through another encode. The
+metadata survives and you avoid a second round of loss for no reason.
+
+There is also an "Original file" option in the menu, for when you want exactly what the server
+sent, animation included.
+
+
+THE FIDDLY PARTS
+
+Photos keep their orientation instead of arriving on their side. Transparent areas get filled
+with a colour you choose before any resizing happens, which avoids the dark fringe that
+otherwise shows up around edges. Large images are scaled down in stages so fine detail survives.
+SVG files are rasterised at a sensible size rather than a tiny one.
+
+
+SETTINGS
+
+Quality per format. An optional cap on the longest side. Filename templates using {name}, {ext},
+{w}, {h}, {date}, {time} and {host}. Files can go straight to Downloads, prompt you each time,
+or land in a named subfolder of your choosing.
+
+
+PRIVACY
+
+Nothing is collected and nothing is sent anywhere. The only network request it makes is for the
+image you asked it to save, from the site already hosting it.
+
+Source code, MIT licensed: https://github.com/addyosmani/save-image-as

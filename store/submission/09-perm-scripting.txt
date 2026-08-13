@@ -1,0 +1,5 @@
+Injected only when the user picks the menu item, and only into the tab they used it in. It does
+two things: it reads the clicked image element's srcset so a higher-resolution version of the
+same image can be fetched, and where the extension cannot fetch a URL itself (blob: URLs only
+exist inside the page's own origin) it asks the page to fetch those bytes. No page content is
+read or transmitted.

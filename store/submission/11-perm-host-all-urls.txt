@@ -1,0 +1,4 @@
+Images can be hosted on any domain, and the image host is very often a different domain from the
+page showing it, because most sites serve images from a CDN. The extension needs to fetch the
+one image the user right-clicked, wherever it happens to live. It is used for nothing else: no
+content script runs automatically, no page data is read, and nothing is sent anywhere.

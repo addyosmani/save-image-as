@@ -1,0 +1,2 @@
+Adds the "Save Image As..." entry to the right-click menu on images. This is the only way the
+user starts the extension.

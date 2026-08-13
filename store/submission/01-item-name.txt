@@ -1,0 +1,1 @@
+SaveImageAs: Save images as JPEG, PNG or WebP

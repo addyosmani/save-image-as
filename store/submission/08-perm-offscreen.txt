@@ -1,0 +1,3 @@
+Decoding and re-encoding an image needs a canvas and URL.createObjectURL, neither of which
+exists in a Manifest V3 service worker. An offscreen document does the conversion and creates
+the blob URL that gets passed to chrome.downloads.

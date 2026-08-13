@@ -1,0 +1,2 @@
+Saves the user's own preferences: quality per format, filename template, save location and an
+optional size cap. No browsing data is stored.

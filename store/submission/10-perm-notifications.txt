@@ -1,0 +1,2 @@
+Shows a message when a save fails so the failure is not silent. Success notifications are off by
+default.
