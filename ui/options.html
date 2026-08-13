@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>SaveImage — Settings</title>
+    <title>SaveImageAs Settings</title>
     <link rel="stylesheet" href="ui.css" />
     <link rel="stylesheet" href="options.css" />
   </head>
@@ -11,10 +11,10 @@
       <header class="page-head">
         <img src="../icons/icon128.png" alt="" width="40" height="40" />
         <div>
-          <h1>SaveImage</h1>
+          <h1>SaveImageAs</h1>
           <p class="hint">
-            Every setting below affects work done locally, by your own copy of Chrome. The
-            extension talks to exactly one thing: the server hosting the image you clicked.
+            Everything below affects work your own copy of Chrome does locally. The extension
+            talks to one thing only: the server hosting the image you clicked.
           </p>
         </div>
         <span class="saved" id="savedFlag">Saved</span>
@@ -60,7 +60,7 @@
           <div class="field">
             <label for="maxDimension">Limit the longest side to</label>
             <input type="number" id="maxDimension" class="num" min="0" max="20000" step="100" />
-            <span class="hint">px — 0 keeps the original size</span>
+            <span class="hint">px. Use 0 to keep the original size.</span>
           </div>
 
           <div class="field">
@@ -99,7 +99,7 @@
             <input type="text" id="subfolder" style="flex: 2" maxlength="64" spellcheck="false" />
           </div>
           <p class="hint">
-            Chrome extensions can only write inside your Downloads folder — a subfolder is created
+            Chrome extensions can only write inside your Downloads folder, so a subfolder is created
             there. Existing files are never overwritten; a number is appended instead.
           </p>
         </div>
@@ -131,7 +131,7 @@
         <h2>Encoder support</h2>
         <p class="hint sub">
           Probed directly from your browser at install time. A format only appears in the
-          right-click menu once its encoder has been proven to work, so SaveImage can never write a
+          right-click menu once its encoder has been proven to work, so SaveImageAs can never write a
           file whose contents disagree with its extension.
         </p>
         <div id="encoderList" class="encoders"></div>
@@ -148,7 +148,7 @@
       </section>
 
       <footer class="page-foot hint">
-        SaveImage <span id="version"></span> · MIT licensed · <a href="https://github.com/addyosmani/save-image-as">source on GitHub</a>
+        SaveImageAs <span id="version"></span> · MIT licensed · <a href="https://github.com/addyosmani/save-image-as">source on GitHub</a>
       </footer>
     </div>
 

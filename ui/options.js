@@ -210,7 +210,7 @@ function wire() {
   });
 
   $('reset').addEventListener('click', async () => {
-    if (!confirm('Restore all SaveImage settings to their defaults?')) return;
+    if (!confirm('Restore all SaveImageAs settings to their defaults?')) return;
     settings = await resetSettings();
     location.reload();
   });

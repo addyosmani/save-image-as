@@ -23,7 +23,7 @@ export const DEFAULTS = Object.freeze({
 
   // Output
   saveMode: 'downloads', // 'downloads' | 'ask' | 'subfolder'
-  subfolder: 'SaveImage',
+  subfolder: 'SaveImageAs',
   filenameTemplate: '{name}.{ext}',
 
   // Feedback

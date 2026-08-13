@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>SaveImage — store asset renderer</title>
+    <title>SaveImageAs store asset renderer</title>
     <link rel="stylesheet" href="/ui/ui.css" />
     <link rel="stylesheet" href="/ui/popup.css" />
     <link rel="stylesheet" href="/ui/options.css" />
@@ -92,7 +92,7 @@
 
       if (scene === 'hero') {
         stage.innerHTML =
-          caption('Save any image as JPEG, PNG or WebP', 'Right-click. Pick a format. Done.') +
+          caption('Save any image as JPEG, PNG or WebP', 'One right-click, in the format you actually need.') +
           `<div class="hero">${photo}${menu}</div>`;
       } else if (scene === 'popup') {
         stage.innerHTML =
@@ -103,12 +103,12 @@
         document.getElementById('subfolder').value = 'Wallpapers';
       } else if (scene === 'options') {
         stage.innerHTML =
-          caption('Everything else, if you want it', 'Filename templates, size caps, passthrough, source upgrading.') +
+          caption('Everything else, if you want it', 'Filename templates, size caps, and where files land.') +
           `<div class="center"><div class="frame frame-wide"><div id="mnt" class="scaled"></div></div></div>`;
         await mount('options', document.getElementById('mnt'));
       } else if (scene === 'honest') {
         stage.innerHTML =
-          caption('A .webp file is always really WebP', 'Chrome silently returns PNG for codecs it cannot encode. SaveImage checks.') +
+          caption('A .webp file is really WebP', 'Chrome quietly returns PNG for codecs it cannot encode. This checks.') +
           `<div class="center"><div class="explain">
              <div class="ex-row"><code>convertToBlob("image/webp")</code><b class="good">→ image/webp ✓ saved</b></div>
              <div class="ex-row"><code>convertToBlob("image/avif")</code><b class="bad">→ image/png ✗ refused</b></div>
@@ -124,7 +124,7 @@
                <div class="ex-box ex-dim"><span>what the page shows</span>
                  <code>/upload/<em>w_400,q_auto,f_auto</em>/v1/pic.jpg</code><small>400px · already re-compressed</small></div>
                <div class="ex-arrow">→</div>
-               <div class="ex-box ex-lit"><span>what SaveImage fetches</span>
+               <div class="ex-box ex-lit"><span>what SaveImageAs fetches</span>
                  <code>/upload/v1/pic</code><small>the original upload, full resolution</small></div>
              </div>
              <p class="ex-note">On Cloudinary-hosted images the transformation segments are dropped
@@ -134,7 +134,7 @@
       } else if (scene === 'promo' || scene === 'marquee') {
         stage.innerHTML = `<div class="promo">
             <img src="/icons/icon128.png" alt="" class="promo-icon">
-            <div><h2>SaveImage</h2><p>Right-click any image →<br>save it as JPEG, PNG or WebP</p></div>
+            <div><h2>SaveImageAs</h2><p>Right-click any image →<br>save it as JPEG, PNG or WebP</p></div>
           </div>`;
       }
 

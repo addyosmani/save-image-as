@@ -260,7 +260,7 @@ export async function convertImage({ sources = [], dataUrl = null, format, setti
         lastError = err;
         if (cand.upgraded) {
           // Expected whenever an account restricts derived/original access.
-          console.info('[SaveImage] source upgrade rejected, falling back:', err.message);
+          console.info('[SaveImageAs] source upgrade rejected, falling back:', err.message);
         }
       }
     }

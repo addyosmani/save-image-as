@@ -1,4 +1,4 @@
-# SaveImage
+# SaveImageAs
 
 Right-click any image on the web and save it as **JPEG**, **PNG** or **WebP** — or grab the
 untouched original. Conversion runs on your machine; nothing is uploaded.
@@ -61,7 +61,7 @@ binary, which is a lot of weight for a fourth format.
 ## Converting from the best available source
 
 The image on the page is often a downscaled, already-lossy derivative. Converting *that* to PNG
-gives you a lossless copy of a thumbnail. So before converting, SaveImage looks for something
+gives you a lossless copy of a thumbnail. So before converting, SaveImageAs looks for something
 better.
 
 ![Source upgrading](store/screenshots/3-original-source.png)
@@ -104,7 +104,7 @@ Compositing afterwards pulls the colour of transparent pixels into visible edges
 **Better downscaling.** Steps down by halves rather than one aliased jump.
 
 **Reaches awkward images.** `blob:` URLs exist only inside the page's own origin, and some hosts
-serve images only to their own referer. When a direct fetch fails, SaveImage asks the page to
+serve images only to their own referer. When a direct fetch fails, SaveImageAs asks the page to
 fetch the bytes instead.
 
 **SVG.** Rasterised at a useful size derived from its `viewBox`.

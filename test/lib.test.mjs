@@ -97,7 +97,7 @@ test('safeComponent: strips traversal, control chars and reserved names', () => 
 });
 
 test('sanitizeSubfolder: relative, bounded depth, no escapes', () => {
-  assert.equal(sanitizeSubfolder('SaveImage'), 'SaveImage');
+  assert.equal(sanitizeSubfolder('SaveImageAs'), 'SaveImageAs');
   assert.equal(sanitizeSubfolder('/abs/../path'), 'abs/path');
   assert.equal(sanitizeSubfolder('a/b/c/d/e/f'), 'a/b/c/d');
   assert.equal(sanitizeSubfolder('..'), '');

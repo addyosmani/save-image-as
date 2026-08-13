@@ -2,14 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>SaveImage</title>
+    <title>SaveImageAs</title>
     <link rel="stylesheet" href="ui.css" />
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body class="popup">
     <header class="bar">
       <img src="../icons/icon32.png" alt="" width="20" height="20" class="mark" />
-      <h1>SaveImage</h1>
+      <h1>SaveImageAs</h1>
       <span class="ver" id="version"></span>
       <button class="icon-btn" id="openOptions" title="All settings" aria-label="All settings">
         <svg
@@ -51,7 +51,7 @@
         </div>
 
         <p class="hint" id="losslessNote" hidden>
-          PNG is lossless — there is no quality dial. Every pixel is preserved exactly.
+          PNG is lossless, so there is no quality dial. Every pixel is preserved exactly.
         </p>
       </div>
     </section>
@@ -70,7 +70,7 @@
           <input
             type="text"
             id="subfolder"
-            placeholder="SaveImage"
+            placeholder="SaveImageAs"
             maxlength="64"
             style="flex: 1"
             aria-label="Subfolder name"

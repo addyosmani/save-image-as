@@ -89,7 +89,7 @@ async function refreshEncoderSupport() {
     await chrome.storage.local.set({ encoderSupport: support });
     return support;
   } catch (err) {
-    console.warn('[SaveImage] encoder probe failed:', err);
+    console.warn('[SaveImageAs] encoder probe failed:', err);
     // Assume only the three formats every Chrome has shipped for a decade.
     const fallback = { jpeg: true, png: true, webp: true, avif: false };
     await chrome.storage.local.set({ encoderSupport: fallback });
@@ -112,7 +112,7 @@ function buildMenus() {
   menuQueue = menuQueue
     .catch(() => {})
     .then(rebuildMenus)
-    .catch((err) => console.warn('[SaveImage] menu rebuild failed:', err));
+    .catch((err) => console.warn('[SaveImageAs] menu rebuild failed:', err));
   return menuQueue;
 }
 
@@ -361,7 +361,7 @@ async function saveImage({ srcUrl, pageUrl, format, info, tab }) {
     flashBadge('ok');
     if (settings.notifyOnSuccess) notifySuccess(filename, result, label);
   } catch (err) {
-    console.error('[SaveImage]', err);
+    console.error('[SaveImageAs]', err);
     flashBadge('err');
     const settings = await getSettings().catch(() => ({ notifyOnError: true }));
     if (settings.notifyOnError) {

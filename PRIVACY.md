@@ -1,12 +1,12 @@
-# Privacy Policy — SaveImage
+# Privacy Policy for SaveImageAs
 
 **Last updated: 13 August 2026**
 
-SaveImage does not collect, store, transmit, or sell any personal data.
+SaveImageAs does not collect, store, transmit, or sell any personal data.
 
 ## What the extension does with data
 
-SaveImage runs entirely on your own computer. There is no backend, no account, no
+SaveImageAs runs entirely on your own computer. There is no backend, no account, no
 telemetry, and no analytics. The developer receives nothing about you or your browsing.
 
 | Data | What happens to it |
@@ -21,7 +21,7 @@ The extension makes exactly one kind of network request: fetching the image you 
 to save, from the server already hosting it.
 
 When the *"Fetch the highest-quality source available"* setting is on, that request may go
-to a slightly different URL on the **same host** — the page's own largest `srcset`
+to a slightly different URL on the **same host**: the page's own largest `srcset`
 candidate, or the untransformed original of a Cloudinary-hosted image. It is still a
 request for the same picture on the same server. No third party is contacted.
 

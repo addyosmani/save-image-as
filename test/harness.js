@@ -51,7 +51,7 @@ function paint(w, h, { alpha = false } = {}) {
   }
   ctx.fillStyle = '#ffffff';
   ctx.font = `${Math.round(h / 6)}px sans-serif`;
-  ctx.fillText('SaveImage', 8, Math.round(h / 2));
+  ctx.fillText('SaveImageAs', 8, Math.round(h / 2));
   return c;
 }
 
