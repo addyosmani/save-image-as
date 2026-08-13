@@ -1,136 +1,193 @@
-# Chrome Web Store listing
+# Chrome Web Store submission
 
-Copy-paste source for the developer dashboard. Keep this in sync with `manifest.json`.
+Everything below is ready to paste into the developer dashboard. Keep it in sync with
+`manifest.json`.
 
 ---
 
-## Item name
+## Store listing tab
+
+### Item name
 
 ```
-SaveImage — save any image as JPEG, PNG or WebP
+SaveImageAs: Save images as JPEG, PNG or WebP
 ```
 
-*(47 / 75 characters. Must match `manifest.name`.)*
+45 of 75 characters. Must match `manifest.name`.
 
-## Short description
+### Short description
 
 ```
-Right-click any image to save it as JPEG, PNG or WebP. Re-encoding happens on your own machine, at a quality you choose.
+Right-click any image and save it as JPEG, PNG or WebP. The conversion runs on your own computer, at a quality you set.
 ```
 
-*(120 / 132 characters. Must match `manifest.description`.)*
+118 of 132 characters. Must match `manifest.description`.
 
-## Category
+### Category
 
-`Productivity` → Workflow & Planning
+Productivity → Workflow & Planning
 
-## Language
+### Language
 
 English (United Kingdom)
 
----
-
-## Detailed description
+### Detailed description
 
 ```
-Right-click any image on the web and save it in the format you actually need — JPEG, PNG or
-WebP — instead of whatever the site happened to serve.
+Right-click an image, choose a format, and it saves. JPEG, PNG or WebP.
 
-Everything happens on your own computer. There is no account, no upload, no server, and no
-analytics.
-
-
-HOW IT WORKS
-
-  1. Right-click any image on any page.
-  2. Choose "Save Image As..." and pick a format.
-  3. The converted file lands in your Downloads folder.
-
-There is also "Original file (no conversion)", which downloads exactly the bytes the server
-sent — untouched, metadata and animation intact.
+The conversion runs on your computer. There is no account to create, nothing is uploaded, and no
+server is involved.
 
 
-WHAT MAKES IT DIFFERENT
+WHY NOT JUST USE CHROME'S OWN SAVE IMAGE AS
 
-• It converts from the best source it can find.
-  The picture displayed on a page is often a shrunken, already-compressed derivative.
-  Converting that to PNG just gives you a lossless copy of a thumbnail. SaveImage follows
-  the page's own srcset to the largest version available, and on Cloudinary-hosted images
-  requests the untransformed original rather than the resized copy. If neither works, it
-  falls back to the visible image.
+Chrome saves whatever the site sent, in whatever format it happens to be in. If you need a PNG
+and the page serves WebP, you end up on a converter site or opening an image editor. This skips
+that step.
 
-• A .webp file is always genuinely WebP.
-  Chrome does not report an error when asked for a format it cannot encode — it quietly
-  returns a PNG instead. Extensions that trust it can write a file whose contents disagree
-  with its extension. SaveImage tests each encoder once at install time, and verifies every
-  single conversion against its real file type before saving. Formats your browser cannot
-  encode never appear in the menu at all.
 
-• It skips the conversion when it would only cause harm.
-  Saving a PNG as a PNG copies the original bytes rather than pushing them through another
-  encode, so you keep the metadata and avoid a second generation of loss.
+IT CONVERTS FROM THE RIGHT SOURCE
 
-• The details are handled properly.
-  EXIF orientation is respected, so photos are not saved sideways. Transparency is flattened
-  onto a colour you choose before the image is resized, which avoids the dark fringing that
-  otherwise appears around edges. Downscaling is done in steps, so fine detail survives.
-  SVG images are rasterised at a useful size.
+Pages usually display a shrunk, re-compressed copy of a much better original. Converting that to
+PNG only gets you a lossless copy of a thumbnail, which is not what anyone wants.
+
+So it looks for something better first. It reads the page's srcset and takes the largest version
+listed there. On Cloudinary-hosted images it strips the resize and quality parameters out of the
+URL, which makes Cloudinary hand back the original upload instead of the derivative. If neither
+of those works it falls back to the image you can see, so you are never worse off than before.
+
+
+A .WEBP FILE WILL ACTUALLY BE WEBP
+
+Chrome has an awkward quirk here. Ask it to encode a format it does not support and it hands
+back a PNG without raising an error. Extensions that do not check for this write PNG bytes into
+a file called something.avif, and you only find out weeks later when a program refuses to open
+it.
+
+SaveImageAs tests every encoder once when it installs, then checks each conversion against the
+real file type before anything gets written. Formats your browser cannot encode never appear in
+the menu.
+
+
+SOMETIMES THE RIGHT ANSWER IS NOT TO CONVERT
+
+Saving a PNG as a PNG copies the file as it is instead of putting it through another encode. The
+metadata survives and you avoid a second round of loss for no reason.
+
+There is also an "Original file" option in the menu, for when you want exactly what the server
+sent, animation included.
+
+
+THE FIDDLY PARTS
+
+Photos keep their orientation instead of arriving on their side. Transparent areas get filled
+with a colour you choose before any resizing happens, which avoids the dark fringe that
+otherwise shows up around edges. Large images are scaled down in stages so fine detail survives.
+SVG files are rasterised at a sensible size rather than a tiny one.
 
 
 SETTINGS
 
-• Quality per format, and a size cap for the longest side
-• Filename templates: {name} {ext} {w} {h} {date} {time} {host}
-• Save to Downloads, be asked each time, or use a named subfolder
-• The colour that replaces transparency when saving as JPEG
-• Optional notifications
+Quality per format. An optional cap on the longest side. Filename templates using {name}, {ext},
+{w}, {h}, {date}, {time} and {host}. Files can go straight to Downloads, prompt you each time,
+or land in a named subfolder of your choosing.
 
 
 PRIVACY
 
-No data is collected, stored or transmitted. The extension makes one kind of network
-request: fetching the image you asked it to save, from the site already hosting it. There
-are no requests to any developer server, analytics service or font provider.
+Nothing is collected and nothing is sent anywhere. The only network request it makes is for the
+image you asked it to save, from the site already hosting it.
 
-Free and open source under the MIT licence. Read every line:
-https://github.com/addyosmani/save-image-as
+Source code, MIT licensed: https://github.com/addyosmani/save-image-as
 ```
 
 ---
 
-## Privacy practices tab
+## Privacy tab
 
-**Single purpose**
+### Single purpose
 
 ```
-SaveImage converts an image the user right-clicks into a chosen image format (JPEG, PNG or
+SaveImageAs converts an image the user right-clicks into a chosen image format (JPEG, PNG or
 WebP) and saves it to the user's Downloads folder. That is its only function.
 ```
 
-**Permission justifications**
+### Permission justifications
 
-| Field | Justification |
-| --- | --- |
-| `contextMenus` | Adds the "Save Image As..." item to the right-click menu on images. This is the extension's only entry point. |
-| `downloads` | Writes the converted image file to the user's Downloads folder. The extension has no other way to deliver its output. |
-| `storage` | Persists the user's own preferences — per-format quality, filename template, save location and size cap — so they do not have to be re-entered. No browsing data is stored. |
-| `offscreen` | Image decoding and re-encoding require a canvas and `URL.createObjectURL`, neither of which exists in an MV3 service worker. An offscreen document performs the conversion and creates the blob URL passed to `chrome.downloads`. |
-| `scripting` | Injected only in response to the user choosing the menu item, on the tab they used it in. It does two things: reads the clicked `<img>` element's `srcset` to find a higher-resolution version of the same image, and, when the extension cannot fetch a URL itself (`blob:` URLs exist only inside the page's own origin), asks the page to fetch those bytes. No page content is read or transmitted. |
-| `notifications` | Shows a message when a save fails, so a failure is not silent. Success notifications are off by default. |
-| `host_permissions` (`<all_urls>`) | Images the user wants to save can be hosted on any domain, and the image's host is frequently a different domain from the page it appears on (CDNs). The extension needs to fetch the specific image the user right-clicked, wherever it lives. It is used for nothing else: no content scripts run automatically, and no page data is read or sent anywhere. |
+**contextMenus**
 
-**Remote code**: No. All JavaScript, CSS and images are contained in the package.
+```
+Adds the "Save Image As..." entry to the right-click menu on images. This is the only way the
+user starts the extension.
+```
 
-**Data usage** — tick nothing. The extension collects none of the listed categories
-(personally identifiable information, health, financial, authentication, personal
-communications, location, web history, user activity, website content).
+**downloads**
 
-Confirm all three certifications:
-- Data is not sold to third parties ✔
-- Data is not used for purposes unrelated to the item's single purpose ✔
-- Data is not used to determine creditworthiness or for lending ✔
+```
+Writes the converted image to the user's Downloads folder. There is no other way for the
+extension to deliver the file it produces.
+```
 
-**Privacy policy URL**
+**storage**
+
+```
+Saves the user's own preferences: quality per format, filename template, save location and an
+optional size cap. No browsing data is stored.
+```
+
+**offscreen**
+
+```
+Decoding and re-encoding an image needs a canvas and URL.createObjectURL, neither of which
+exists in a Manifest V3 service worker. An offscreen document does the conversion and creates
+the blob URL that gets passed to chrome.downloads.
+```
+
+**scripting**
+
+```
+Injected only when the user picks the menu item, and only into the tab they used it in. It does
+two things: it reads the clicked image element's srcset so a higher-resolution version of the
+same image can be fetched, and where the extension cannot fetch a URL itself (blob: URLs only
+exist inside the page's own origin) it asks the page to fetch those bytes. No page content is
+read or transmitted.
+```
+
+**notifications**
+
+```
+Shows a message when a save fails so the failure is not silent. Success notifications are off by
+default.
+```
+
+**Host permission (`<all_urls>`)**
+
+```
+Images can be hosted on any domain, and the image host is very often a different domain from the
+page showing it, because most sites serve images from a CDN. The extension needs to fetch the
+one image the user right-clicked, wherever it happens to live. It is used for nothing else: no
+content script runs automatically, no page data is read, and nothing is sent anywhere.
+```
+
+### Remote code
+
+**No.** All JavaScript, CSS and images are inside the package. Nothing is fetched and executed
+at runtime.
+
+### Data usage
+
+Tick nothing. The extension collects none of the listed categories: no personally identifiable
+information, health, financial or authentication information, no personal communications, no
+location, no web history, no user activity, no website content.
+
+Then confirm all three certifications:
+
+- Data is not being sold to third parties
+- Data is not being used or transferred for purposes unrelated to the item's single purpose
+- Data is not being used or transferred to determine creditworthiness or for lending purposes
+
+### Privacy policy URL
 
 ```
 https://github.com/addyosmani/save-image-as/blob/main/PRIVACY.md
@@ -142,18 +199,38 @@ https://github.com/addyosmani/save-image-as/blob/main/PRIVACY.md
 
 | Asset | Size | File | Required |
 | --- | --- | --- | --- |
-| Store icon | 128×128 | `icons/icon128.png` | Yes |
-| Screenshot 1 | 1280×800 | `store/screenshots/1-context-menu.png` | Yes (≥1) |
-| Screenshot 2 | 1280×800 | `store/screenshots/2-popup.png` | |
-| Screenshot 3 | 1280×800 | `store/screenshots/3-original-source.png` | |
-| Screenshot 4 | 1280×800 | `store/screenshots/4-format-verification.png` | |
-| Screenshot 5 | 1280×800 | `store/screenshots/5-settings.png` | |
-| Small promo tile | 440×280 | `store/promo/small-tile-440x280.png` | Optional |
-| Marquee promo tile | 1400×560 | `store/promo/marquee-1400x560.png` | Optional |
+| Store icon | 128x128 | `icons/icon128.png` | Yes |
+| Screenshot 1 | 1280x800 | `store/screenshots/1-context-menu.png` | Yes, at least one |
+| Screenshot 2 | 1280x800 | `store/screenshots/2-popup.png` | |
+| Screenshot 3 | 1280x800 | `store/screenshots/3-original-source.png` | |
+| Screenshot 4 | 1280x800 | `store/screenshots/4-format-verification.png` | |
+| Screenshot 5 | 1280x800 | `store/screenshots/5-settings.png` | |
+| Small promo tile | 440x280 | `store/promo/small-tile-440x280.png` | Optional |
+| Marquee promo tile | 1400x560 | `store/promo/marquee-1400x560.png` | Optional |
 
-Regenerate them all with `tools/make-store-assets.sh` — the scenes are composed from the
-real extension UI, so they cannot drift out of date.
+Regenerate all of them with `tools/make-store-assets.sh`. The scenes are built from the real
+extension UI, so they cannot fall out of date.
+
+---
 
 ## Upload package
 
-`tools/package.sh` → `dist/save-image-as-v<version>.zip` (runtime files only).
+```bash
+tools/package.sh
+```
+
+Produces `dist/save-image-as-v<version>.zip` containing runtime files only, and fails the build
+if anything from `test/`, `tools/` or `store/` ends up inside it.
+
+---
+
+## Before submitting
+
+- [ ] `tools/package.sh` run against the current version number
+- [ ] Extension loaded unpacked and tested once more in a clean profile
+- [ ] `manifest.json` name and description match the two fields above
+- [ ] Privacy policy URL resolves publicly (the repo must be public first)
+- [ ] Distribution set to Public, and the correct regions selected
+
+Expect a slower first review than usual. `<all_urls>` puts the item in the broad host permission
+queue, which is reviewed by hand.
