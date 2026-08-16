@@ -1,7 +1,17 @@
-# Chrome Web Store submission
+# Chrome Web Store listing
 
-Everything below is ready to paste into the developer dashboard. Keep it in sync with
-`manifest.json`.
+**Published and live.** v1.0.0 cleared review on 17 August 2026.
+
+| | |
+| --- | --- |
+| Listing | https://chromewebstore.google.com/detail/saveimageas-save-images-a/oeehjomgmadhlpdfckeblmfpiimlcpfp |
+| Item ID | `oeehjomgmadhlpdfckeblmfpiimlcpfp` |
+| Dashboard | https://chrome.google.com/webstore/devconsole/94f6cdcd-77cc-4c76-bf6e-b084bfd4b83f |
+
+Everything below is the copy currently on the listing. It is kept here so an update can be
+reviewed in a diff rather than retyped into the dashboard, and it must stay in sync with
+`manifest.json`. Note that a version bump touching permissions puts the item back into the
+in-depth review queue, so expect the same wait as the first submission.
 
 ---
 
@@ -224,7 +234,7 @@ if anything from `test/`, `tools/` or `store/` ends up inside it.
 
 ---
 
-## Before submitting
+## Before each submission
 
 - [ ] `tools/package.sh` run against the current version number
 - [ ] Extension loaded unpacked and tested once more in a clean profile

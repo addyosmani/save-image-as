@@ -3,13 +3,24 @@
 Right-click any image on the web and save it as **JPEG**, **PNG** or **WebP** — or grab the
 untouched original. Conversion runs on your machine; nothing is uploaded.
 
+<a href="https://chromewebstore.google.com/detail/saveimageas-save-images-a/oeehjomgmadhlpdfckeblmfpiimlcpfp">
+  <img src="https://developer.chrome.com/static/docs/webstore/branding/image/iNEddTyWiMfLSwFD6qGq.png"
+       alt="Available in the Chrome Web Store" height="58">
+</a>
+
 ![Save Image As in the right-click menu](store/screenshots/1-context-menu.png)
+
+## Install
+
+[**Get it from the Chrome Web Store.**](https://chromewebstore.google.com/detail/saveimageas-save-images-a/oeehjomgmadhlpdfckeblmfpiimlcpfp)
+
+Or run it from source:
 
 ```bash
 git clone https://github.com/addyosmani/save-image-as.git
 ```
 
-Then: `chrome://extensions` → enable **Developer mode** → **Load unpacked** → pick the folder.
+Then `chrome://extensions` → enable **Developer mode** → **Load unpacked** → pick the folder.
 
 ---
 
